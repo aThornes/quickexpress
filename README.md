@@ -1,8 +1,8 @@
 # QuickExpress (rest-express-wrapper)
 
-[![npm](https://img.shields.io/npm/v/mongodb-if?color=red)](https://www.npmjs.com/package/rest-express-wrapper)
-[![npm bundle size](https://img.shields.io/bundlephobia/min/mongodb-if)](https://www.npmjs.com/package/rest-express-wrapper)
-[![npm downloads](https://img.shields.io/npm/dt/mongodb-if?color=blue)](https://www.npmjs.com/package/rest-express-wrapper)
+[![npm](https://img.shields.io/npm/v/rest-express-wrapper?color=red)](https://www.npmjs.com/package/rest-express-wrapper)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/rest-express-wrapper)](https://www.npmjs.com/package/rest-express-wrapper)
+[![npm downloads](https://img.shields.io/npm/dt/rest-express-wrapper?color=blue)](https://www.npmjs.com/package/rest-express-wrapper)
 
 QuickExpress is an express wrapper created to initialise REST endpoints and validate all calls globally.
 
