@@ -17,6 +17,9 @@
 # Logs
 /run_logs
 
+# Built files
+*.js
+
 # misc
 .DS_Store
 .env.local
