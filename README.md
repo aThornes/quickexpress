@@ -172,6 +172,16 @@ const customValidator = ({
 
 ### Limiter identifier
 
+The identifier used in determining a request origin can be customised. By default, _req.ip_ is used from the express request object but this is not always sufficient.
+
+To pass a custom identifier, you can define a function similar to below:
+
+```ts
+const getLimiterIdentifier = (req: express.Request): string => {
+  return req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+};
+```
+
 ## Constructor
 
 To initialise the wrapper, the following must be passed
