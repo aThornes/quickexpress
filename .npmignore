@@ -1,6 +1,7 @@
 /src
 /docs
 /node_modules
+/example
 *.ts
 .eslintrc.json
 .gitignore
