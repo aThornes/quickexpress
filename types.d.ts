@@ -37,7 +37,9 @@ interface WrapperStruc {
   mongoClient?: Db;
   expressApp: express.Application;
   additionalLimiterOptions?: IRateLimiterMongoOptions;
-  validateRequest?(request: ValidationRequest): Promise<ValidationResponse>;
+  validateRequest?(
+    request: ValidationRequest
+  ): Promise<ValidationResponse> | ValidationResponse;
   getLimiterIdentifier?(req: express.Request): string;
 }
 
@@ -46,7 +48,9 @@ interface HandleRequestOpts {
   res: express.Response;
   endpoint: EndpointStruc;
   endpointLimiter?: RateLimiterMongo;
-  validateRequest?(request: ValidationRequest): Promise<ValidationResponse>;
+  validateRequest?(
+    request: ValidationRequest
+  ): Promise<ValidationResponse> | ValidationResponse;
   getLimiterIdentifier?(req: express.Request): string;
 }
 
@@ -54,7 +58,9 @@ interface ValidateRequestOpts {
   req: express.Request;
   endpoint: EndpointStruc;
   endpointLimiter?: RateLimiterMongo;
-  validateRequest?(request: ValidationRequest): Promise<ValidationResponse>;
+  validateRequest?(
+    request: ValidationRequest
+  ): Promise<ValidationResponse> | ValidationResponse;
   getLimiterIdentifier?(req: express.Request): string;
 }
 
@@ -62,7 +68,9 @@ interface InitListenerOpts {
   endpoint: EndpointStruc;
   endpointLimiter?: RateLimiterMongo;
   expressApp: express.Application;
-  validateRequest?(request: ValidationRequest): Promise<ValidationResponse>;
+  validateRequest?(
+    request: ValidationRequest
+  ): Promise<ValidationResponse> | ValidationResponse;
   getLimiterIdentifier?(req: express.Request): string;
 }
 

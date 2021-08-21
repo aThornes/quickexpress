@@ -42,8 +42,8 @@ const endpoint: EndpointStruc = {
   headers: ['text'],
   limiter: {
     points: 10,
-    duration: '1d' /* other examples: 500 (500 seconds), '1m' (60 seconds), '5m' (300 seconds), '10h' (36000 seconds), '1d' (86400 seconds) */
-    keyPrefix 'testlimiter' /* Name of table in database */
+    duration: '1d', /* other examples: 500 (500 seconds), '1m' (60 seconds), '5m' (300 seconds), '10h' (36000 seconds), '1d' (86400 seconds) */
+    keyPrefix: 'testlimiter' /* Name of table in database */
   }
   execute(
     req: express.Request,
@@ -95,6 +95,82 @@ Before endpoints can be reached, you must initialise them via:
 ```js
 expressWrapper.initialise();
 ```
+
+## Using custom validation
+
+### Validation request
+
+You can pass a custom validation function that is applied when any endpoint is reached, this could include validating user logins/sessions or confirming the contents of specific headers.
+
+The custom validation function accepts the following arguments as an object (typescript interface: 'ValidationRequest'):
+
+```ts
+{
+  headers: express.Headers;
+  endpointName?: string;
+  endpointType?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+}
+```
+
+And must return an object containing a boolean **success** key. Full response options:
+
+```ts
+{
+  success: boolean;
+  status?: number;
+  error?: string;
+  headers?: any;
+}
+
+```
+
+**Example** of validation function utilising all possible return options.
+
+Standard response:
+
+```ts
+const customValidator = ({
+  headers,
+  endpointName,
+  endpointType,
+}: ValidationRequest): Promise<ValidationResponse> => {
+  if (headers.clientid === process.env.CLIENT_ID) {
+    return { success: true, headers: { userID: resp.userid } };
+  } else {
+    return {
+      success: false,
+      status: 401,
+      error: 'Invalid client id provided, unauthorised',
+    };
+  }
+};
+```
+
+As a promise:
+
+```ts
+const customValidator = ({
+  headers,
+  endpointName,
+  endpointType,
+}: ValidationRequest): Promise<ValidationResponse> =>
+  new Promise((resolve) => {
+    // Here checkLogin is a promise function used to validate an active session key
+    checkLogin(headers.sessionkey).then((resp) => {
+      if (resp.success) {
+        resolve({ success: true, headers: { userID: resp.userid } });
+      } else {
+        resolve({
+          success: false,
+          status: 401,
+          error: 'Invalid session key provided, unauthorised',
+        });
+      }
+    });
+  });
+```
+
+### Limiter identifier
 
 ## Constructor
 

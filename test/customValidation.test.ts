@@ -12,16 +12,15 @@ describe('Endpoint validation', () => {
 
   const customValidator = ({
     headers,
-  }: ValidationRequest): Promise<ValidationResponse> =>
-    new Promise((resolve) => {
-      if (headers.clientid === testClientID) resolve({ success: true });
-      else
-        resolve({
-          success: false,
-          error: 'Invalid client ID',
-          status: failStatus,
-        });
-    });
+  }: ValidationRequest): ValidationResponse => {
+    if (headers.clientid === testClientID) return { success: true };
+    else
+      return {
+        success: false,
+        error: 'Invalid client ID',
+        status: failStatus,
+      };
+  };
 
   beforeAll(() => {
     const endpoint: EndpointStruc = {
