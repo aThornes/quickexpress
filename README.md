@@ -8,6 +8,8 @@ QuickExpress is an express wrapper created to initialise REST endpoints and vali
 
 To utilise the rate limiting function, a mongo database object must provided. Support for alternatives will be added in due course (Redis, Memcache, mySQL & PostGres)
 
+![Flow Diagram](https://github.com/aThornes/quickexpress/blob/master/docs/ClassFlow.png)
+
 ## Setup
 
 ### Creating endpoints
