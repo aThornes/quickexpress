@@ -12,6 +12,7 @@ interface EndpointStruc {
   limiter?: LimiterStruc;
   type: 'GET' | 'POST' | 'PUT' | 'DELETE';
   headers?: string[];
+  body?: string[];
   execute(
     req: express.Request,
     res: express.Response,
@@ -21,6 +22,7 @@ interface EndpointStruc {
 
 interface ValidationRequest {
   headers: express.Headers;
+  body?: express.body;
   endpointName?: string;
   endpointType?: 'GET' | 'POST' | 'PUT' | 'DELETE';
 }

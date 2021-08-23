@@ -107,6 +107,7 @@ The custom validation function accepts the following arguments as an object (typ
 ```ts
 {
   headers: express.Headers;
+  body?: express.body;
   endpointName?: string;
   endpointType?: 'GET' | 'POST' | 'PUT' | 'DELETE';
 }
@@ -131,6 +132,7 @@ Standard response:
 ```ts
 const customValidator = ({
   headers,
+  body,
   endpointName,
   endpointType,
 }: ValidationRequest): Promise<ValidationResponse> => {
@@ -151,6 +153,7 @@ As a promise:
 ```ts
 const customValidator = ({
   headers,
+  body,
   endpointName,
   endpointType,
 }: ValidationRequest): Promise<ValidationResponse> =>
@@ -199,16 +202,19 @@ To initialise the wrapper, the following must be passed
 
 Endpoints contain the following
 
-| Object Key  |              Description              |               Example data | Required |
-| :---------- | :-----------------------------------: | -------------------------: | -------: |
-| name        |           Name of endpoint            |                      login |      [x] |
-| disabled    |  Disable the endpoint (not callable)  |                       true |          |
-| path        |               REST path               |                      login |      [x] |
-| defaultPath |           REST path prefix            |                       auth |      [x] |
-| limiter     |            Limiter object             |                       true |          |
-| type        |             Request type              |                        GET |      [x] |
-| headers     |           Required headers            |   ['username', 'password'] |          |
-| execute     | Function executed on endpoint reached | execute(req,res,headers){} |      [x] |
+| Object Key  |                  Description                  |               Example data | Required |
+| :---------- | :-------------------------------------------: | -------------------------: | -------: |
+| name        |               Name of endpoint                |                      login |      [x] |
+| disabled    |      Disable the endpoint (not callable)      |                       true |          |
+| path        |                   REST path                   |                      login |      [x] |
+| defaultPath |               REST path prefix                |                       auth |      [x] |
+| limiter     |                Limiter object                 |                       true |          |
+| type        |                 Request type                  |                        GET |      [x] |
+| headers     |               Required headers                |               ['clientid'] |          |
+| body        | Require body (requires body in JSON format)\* |             ['id', 'name'] |          |
+| execute     |     Function executed on endpoint reached     | execute(req,res,headers){} |      [x] |
+
+\*Body requires either express.json() or bodyParser() middleware in order to access the JSON _req.body_ (e.g. _app.use(express.json())_)
 
 ### Limiter object
 
