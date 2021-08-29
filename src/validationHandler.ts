@@ -70,7 +70,7 @@ export const performValidation = ({
         resolve({
           success: false,
           status: 429,
-          error: errorMessages.BAD_IDENTIFIER,
+          error: errorMessages.RATE_LIMIT_REACHED,
         });
         return;
       }

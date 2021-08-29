@@ -1,7 +1,7 @@
 /* Interfaces */
 interface LimiterStruc {
   points: number;
-  duration: string;
+  duration: string | number;
   keyPrefix?: string;
 }
 

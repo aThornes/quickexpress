@@ -1,9 +1,7 @@
 import express from 'express';
 import http from 'http';
 import ExpressWrapper from '../..';
-import { MongoClient } from 'mongodb';
 import { MongoDBHandler } from 'mongodb-if';
-import { MongoClientOptions } from 'mongodb';
 
 /*
  *   RATE LIMITER TEST
@@ -44,7 +42,7 @@ const runTest = async () => {
     type: 'GET',
     limiter: {
       points: 2,
-      duration: '1m',
+      duration: 20,
       keyPrefix: 'testendpointrx',
     },
     execute(req: any, res: any, headers: any) {
@@ -80,6 +78,9 @@ const runTest = async () => {
   httpServer.once('listening', () => {
     /* Inform the console that the server is up and running */
     console.log(`[HTTP] Server running, listening on ${testPort}...`);
+    console.log(
+      `To test the rate limiter, head to 'http://localhost:${testPort}/path/testendpoint' in your browser and refresh until the limit is reached`
+    );
   });
 };
 
