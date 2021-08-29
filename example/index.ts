@@ -38,12 +38,14 @@ const startRestApi = async () => {
 
   const limiterDB = client.db('rateLimiterDB');
 
+  const limiter: LimiterConstructor = { mongoClient: limiterDB };
+
   const app = express();
 
   const expressWrapper = new ExpressWrapper({
     endpoints,
     expressApp: app,
-    mongoClient: limiterDB,
+    limiter,
   });
 
   /* Start listener on all loaded endpoints */
