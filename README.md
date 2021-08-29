@@ -86,7 +86,7 @@ const app = express();
 const expressWrapper = new ExpressWrapper({
   endpoints,
   expressApp: app,
-  mongoClient: mongoConn.db('rate_limiter_database_name'),
+  limiter: { mongoClient: mongoConn.db('rate_limiter_database_name') },
 });
 ```
 
@@ -194,11 +194,18 @@ To initialise the wrapper, the following must be passed
 | Object Key               |                                                  Description                                                  | Required |
 | :----------------------- | :-----------------------------------------------------------------------------------------------------------: | -------: |
 | endpoints                |                                   Array of endpoints (see structure below)                                    |      [x] |
-| mongoClient              |                                          Mongo database (DB object)                                           |          |
+| limiter                  |                              Object containing limiter database and any options                               |          |
 | expressApp               |                                      Express Application (new Express())                                      |      [x] |
 | additionalLimiterOptions | Additional limiter options (see [options](https://github.com/animir/node-rate-limiter-flexible/wiki/Options)) |          |
 | validateRequest          |                                  Custom function used for request validation                                  |          |
 | getLimiterIdentifier     |                            Custom function used to set identifier used for limiter                            |          |
+
+### Constructor limiter object
+
+| Object Key     |                         Description                          | Required |
+| :------------- | :----------------------------------------------------------: | -------: |
+| mongoClient    |                   Mongo database db object                   |          |
+| limiterOptions | rate limiter options relevant to the type of database passed |          |
 
 ### Endpoint structure
 
@@ -220,7 +227,7 @@ Endpoints contain the following
 
 ### Limiter object
 
-Note: In order to utilise the rate limiter, a mongo database object must be passed to the constructor
+Note: In order to utilise the rate limiter, a valid database object must be passed to the constructor
 
 | Object Key |                Description                | Example data | Required |
 | :--------- | :---------------------------------------: | -----------: | -------: |
