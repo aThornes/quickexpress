@@ -1,10 +1,9 @@
 import { runListener } from './listenerHandler';
-import { getTimeFromString } from './utils';
 
-import { RateLimiterMongo } from 'rate-limiter-flexible';
+import { initaliseRateLimiter } from './limiterHander';
 
 export const validateWrapperData = (data: WrapperStruc) => {
-  if (!data.mongoClient) {
+  if (!data.limiter) {
     data.endpoints.forEach((x) => {
       if (x.limiter) {
         /* Error thrown if limiter requested when mongo client was not provided */
@@ -16,43 +15,11 @@ export const validateWrapperData = (data: WrapperStruc) => {
   }
 };
 
-export const initaliseRateLimiter = ({
-  limiterStore,
-  mongoClient,
-  rateLimiter,
-  additionalOptions,
-  rateLimiterID,
-}: InitRateLimiterOpts): RateLimiterMongo | null => {
-  if (!rateLimiter) return null;
-
-  const { points, duration, keyPrefix } = rateLimiter;
-
-  /* Duration accepts m/h/d shorthand, multiply by the appropriate value */
-  const valDuration = getTimeFromString(duration);
-
-  if (limiterStore[rateLimiterID]) {
-    throw new Error(
-      `Duplicate keyprefix "${keyPrefix}" found, cannot create rate limiter`
-    );
-  }
-
-  const rateLimiterOpts = {
-    storeClient: mongoClient,
-    points,
-    duration: valDuration,
-    keyPrefix,
-    ...additionalOptions,
-  };
-
-  return new RateLimiterMongo(rateLimiterOpts);
-};
-
 export const initialiseEndpoints = (data: WrapperStruc) => {
   const {
     endpoints,
-    mongoClient,
+    limiter,
     expressApp,
-    additionalLimiterOptions,
     validateRequest,
     getLimiterIdentifier,
   } = data;
@@ -63,15 +30,17 @@ export const initialiseEndpoints = (data: WrapperStruc) => {
   endpoints.forEach((endpoint) => {
     const rateLimiterID = endpoint.limiter?.keyPrefix || `${endpoint.name}rx`;
 
-    const endpointLimiter = initaliseRateLimiter({
-      limiterStore,
-      mongoClient: mongoClient,
-      rateLimiter: endpoint.limiter,
-      additionalOptions: additionalLimiterOptions,
-      rateLimiterID,
-    });
+    let endpointLimiter;
+    if (limiter) {
+      endpointLimiter = initaliseRateLimiter({
+        limiterStore,
+        limiter,
+        limiterOptions: endpoint.limiter,
+        rateLimiterID,
+      });
 
-    if (endpointLimiter) limiterStore[rateLimiterID] = endpointLimiter;
+      if (endpointLimiter) limiterStore[rateLimiterID] = endpointLimiter;
+    }
 
     const enabled = runListener({
       expressApp: expressApp,

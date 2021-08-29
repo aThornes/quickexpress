@@ -1,7 +1,13 @@
+/* Interfaces */
 interface LimiterStruc {
   points: number;
   duration: string;
   keyPrefix?: string;
+}
+
+interface LimiterConstructor {
+  mongoClient?: Db;
+  limiterOptions?: any;
 }
 
 interface EndpointStruc {
@@ -36,9 +42,8 @@ interface ValidationResponse {
 
 interface WrapperStruc {
   endpoints: EndpointStruc[];
-  mongoClient?: Db;
   expressApp: express.Application;
-  additionalLimiterOptions?: IRateLimiterMongoOptions;
+  limiter?: LimiterConstructor;
   validateRequest?(
     request: ValidationRequest
   ): Promise<ValidationResponse> | ValidationResponse;
@@ -49,7 +54,7 @@ interface HandleRequestOpts {
   req: express.Request;
   res: express.Response;
   endpoint: EndpointStruc;
-  endpointLimiter?: RateLimiterMongo;
+  endpointLimiter?: EndpointLimiter;
   validateRequest?(
     request: ValidationRequest
   ): Promise<ValidationResponse> | ValidationResponse;
@@ -59,7 +64,7 @@ interface HandleRequestOpts {
 interface ValidateRequestOpts {
   req: express.Request;
   endpoint: EndpointStruc;
-  endpointLimiter?: RateLimiterMongo;
+  endpointLimiter?: EndpointLimiter;
   validateRequest?(
     request: ValidationRequest
   ): Promise<ValidationResponse> | ValidationResponse;
@@ -68,7 +73,7 @@ interface ValidateRequestOpts {
 
 interface InitListenerOpts {
   endpoint: EndpointStruc;
-  endpointLimiter?: RateLimiterMongo;
+  endpointLimiter?: EndpointLimiter;
   expressApp: express.Application;
   validateRequest?(
     request: ValidationRequest
@@ -78,13 +83,20 @@ interface InitListenerOpts {
 
 interface InitRateLimiterOpts {
   limiterStore: any;
-  mongoClient: Db;
-  rateLimiter?: LimiterStruc;
+  limiter: LimiterConstructor;
+  limiterOptions?: LimiterStruc;
   rateLimiterID: string;
-  additionalOptions?: IRateLimiterMongoOptions;
 }
 
 interface CheckRateLimiterOpts {
-  endpointLimiter: RateLimiterMongo;
+  endpointLimiter: EndpointLimiter;
   identifier: string;
+}
+
+interface MongoLimiterOptions {
+  limiterStore: any;
+  mongoClient: Db;
+  mongoOptions: any;
+  limiterOptions: LimiterStruc;
+  rateLimiterID: string;
 }
