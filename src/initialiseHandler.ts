@@ -1,6 +1,7 @@
 import { runListener } from './listenerHandler';
 
 import { initaliseRateLimiter } from './limiterHander';
+import { WrapperStruc } from './types';
 
 export const validateWrapperData = (data: WrapperStruc) => {
   if (!data.limiter) {

@@ -1,5 +1,6 @@
 import ExpressWrapper from '..';
 import express from 'express';
+import { EndpointStruc } from '../src/types';
 
 describe('Initialise quickExpress class', () => {
   it('Init', () => {

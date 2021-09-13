@@ -1,11 +1,12 @@
 {
   "name": "rest-express-wrapper",
-  "version": "0.3.2",
+  "version": "0.3.5",
   "description": "Express wrapper for a restful api",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "publish": "npm publish --access public",
-    "build": "tsc",
+    "build": "tsc && @powershell copy types.d.ts dist/types.d.ts",
     "test": "jest",
     "testlimiter": "node test/integration/rateLimiterTest.js"
   },

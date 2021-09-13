@@ -1,4 +1,6 @@
+import { Request, Response } from 'express';
 import { errorMessages } from './messages';
+import { HandleRequestOpts, InitListenerOpts } from './types';
 import { performValidation } from './validationHandler';
 
 const handleRequest = ({
@@ -38,7 +40,7 @@ export const runListener = ({
 }: InitListenerOpts) => {
   if (endpoint.disabled) return false;
 
-  const getRequestOpts = (req: Request, res: Response) => {
+  const getRequestOpts = (req: Request, res: Response): HandleRequestOpts => {
     return {
       req,
       res,

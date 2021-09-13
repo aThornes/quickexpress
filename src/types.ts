@@ -1,16 +1,18 @@
 /* Interfaces */
-interface LimiterStruc {
+export interface LimiterStruc {
   points: number;
   duration: string | number;
   keyPrefix?: string;
 }
 
-interface LimiterConstructor {
-  mongoClient?: Db;
+export interface LimiterConstructor {
+  mongoClient?: import('mongodb').Db | null;
   limiterOptions?: any;
 }
 
-interface EndpointStruc {
+export type EndpointLimiter = any;
+
+export interface EndpointStruc {
   name: string;
   disabled?: boolean;
   path: string;
@@ -20,82 +22,82 @@ interface EndpointStruc {
   headers?: string[];
   body?: string[];
   execute(
-    req: express.Request,
-    res: express.Response,
-    headers: express.Headers
+    req: import('express').Request,
+    res: import('express').Response,
+    headers: any
   ): void;
 }
 
-interface ValidationRequest {
-  headers: express.Headers;
-  body?: express.body;
+export interface ValidationRequest {
+  headers: any;
+  body?: any;
   endpointName?: string;
   endpointType?: 'GET' | 'POST' | 'PUT' | 'DELETE';
 }
 
-interface ValidationResponse {
+export interface ValidationResponse {
   success: boolean;
   status?: number;
   error?: string;
   headers?: any;
 }
 
-interface WrapperStruc {
+export interface WrapperStruc {
   endpoints: EndpointStruc[];
-  expressApp: express.Application;
+  expressApp: import('express').Application;
   limiter?: LimiterConstructor;
   validateRequest?(
     request: ValidationRequest
   ): Promise<ValidationResponse> | ValidationResponse;
-  getLimiterIdentifier?(req: express.Request): string;
+  getLimiterIdentifier?(req: import('express').Request): string;
 }
 
-interface HandleRequestOpts {
-  req: express.Request;
-  res: express.Response;
+export interface HandleRequestOpts {
+  req: import('express').Request;
+  res: import('express').Response;
   endpoint: EndpointStruc;
   endpointLimiter?: EndpointLimiter;
   validateRequest?(
     request: ValidationRequest
   ): Promise<ValidationResponse> | ValidationResponse;
-  getLimiterIdentifier?(req: express.Request): string;
+  getLimiterIdentifier?(req: import('express').Request): string;
 }
 
-interface ValidateRequestOpts {
-  req: express.Request;
+export interface ValidateRequestOpts {
+  req: import('express').Request;
   endpoint: EndpointStruc;
   endpointLimiter?: EndpointLimiter;
   validateRequest?(
     request: ValidationRequest
   ): Promise<ValidationResponse> | ValidationResponse;
-  getLimiterIdentifier?(req: express.Request): string;
+  getLimiterIdentifier?(req: import('express').Request): string;
 }
 
-interface InitListenerOpts {
+export interface InitListenerOpts {
   endpoint: EndpointStruc;
   endpointLimiter?: EndpointLimiter;
-  expressApp: express.Application;
+  expressApp: import('express').Application;
   validateRequest?(
     request: ValidationRequest
   ): Promise<ValidationResponse> | ValidationResponse;
-  getLimiterIdentifier?(req: express.Request): string;
+  getLimiterIdentifier?(req: import('express').Request): string;
 }
 
-interface InitRateLimiterOpts {
+export interface InitRateLimiterOpts {
   limiterStore: any;
   limiter: LimiterConstructor;
   limiterOptions?: LimiterStruc;
   rateLimiterID: string;
 }
 
-interface CheckRateLimiterOpts {
+export interface CheckRateLimiterOpts {
   endpointLimiter: EndpointLimiter;
   identifier: string;
 }
 
-interface MongoLimiterOptions {
+export interface MongoLimiterOptions {
   limiterStore: any;
-  mongoClient: Db;
+  mongoClient: import('mongodb').Db;
   mongoOptions: any;
   limiterOptions: LimiterStruc;
   rateLimiterID: string;

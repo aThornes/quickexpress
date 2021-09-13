@@ -3,6 +3,8 @@ import {
   validateWrapperData,
 } from './src/initialiseHandler';
 
+import { WrapperStruc } from './src/types';
+
 class ExpressWrapper {
   wrapperData: WrapperStruc;
 

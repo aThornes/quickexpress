@@ -1,4 +1,5 @@
 import { RateLimiterMongo } from 'rate-limiter-flexible';
+import { InitRateLimiterOpts, MongoLimiterOptions } from './types';
 import { getTimeFromString } from './utils';
 
 export const initaliseRateLimiter = ({

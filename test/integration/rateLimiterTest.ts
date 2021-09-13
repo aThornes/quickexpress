@@ -2,6 +2,7 @@ import express from 'express';
 import http from 'http';
 import ExpressWrapper from '../..';
 import { MongoDBHandler } from 'mongodb-if';
+import { EndpointStruc, LimiterConstructor } from '../../src/types';
 
 /*
  *   RATE LIMITER TEST

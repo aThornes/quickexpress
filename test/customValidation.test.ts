@@ -1,6 +1,11 @@
 import ExpressWrapper from '..';
-import express, { response } from 'express';
+import express from 'express';
 import request from 'supertest';
+import {
+  EndpointStruc,
+  ValidationRequest,
+  ValidationResponse,
+} from '../src/types';
 
 describe('Endpoint validation', () => {
   let app: Express.Application;

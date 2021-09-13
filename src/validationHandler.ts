@@ -1,10 +1,11 @@
 import { errorMessages } from './messages';
+import { CheckRateLimiterOpts, ValidateRequestOpts } from './types';
 
 const checkRateLimiter = ({
   endpointLimiter,
   identifier,
 }: CheckRateLimiterOpts) => {
-  return new Promise((resolve) => {
+  return new Promise((resolve: any) => {
     endpointLimiter
       .consume(identifier)
       .then(() => {
