@@ -3,6 +3,7 @@
 /example
 /test
 *.ts
+!types.d.ts
 .eslintrc.json
 .gitignore
 .prettierrc
